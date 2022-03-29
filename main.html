@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Banks</title>
+</head>
+<body>
+<h1>Information about places with currency</h1>
+<ul id="updates"></ul>
+<script>
+    var ws = new WebSocket("ws://localhost:8000/ws");
+    ws.onmessage = function(event){
+        var updates = document.getElementById("updates")
+        var update = document.createElement("li")
+        var content = document.createTextNode(event.data)
+        update.appendChild(content)
+        updates.appendChild(update)
+    };
+
+</script>
+</body>
+</html>
