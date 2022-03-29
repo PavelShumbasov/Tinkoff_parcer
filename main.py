@@ -19,7 +19,11 @@ async def root():
     return HTMLResponse(HTML_page)
 
 
+banks = ""
+
+
 async def get_updates():
+    global banks
     while True:
         banks = get_banks()
         # отправляем каждому подключенному пользователю обновления по банкам
@@ -32,6 +36,7 @@ async def get_updates():
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     await manager.connect(websocket)  # Принимаем подключение от пользователя
+    await websocket.send_text(banks)  # отправляем данные пользователю сразу после подключения
     try:
         while True:
             # Цикл для поддержки соединения, тк без него пользователь отключится
